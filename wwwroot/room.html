@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>WatchpartyApp Homepage</title>
   <link href="css/style.css" rel="stylesheet">
-  <script src="js/main.js" defer></script>
   <script src="js/chat.js" defer></script>
 </head>
 
@@ -29,6 +28,33 @@
       </div>
     </div>
   </nav>
+
+  <main>
+    <div class="main-room-container">
+      <div class="main-room-users">Users
+        <ul id="usersList"></ul>
+      </div>
+      <div class="main-room-video">
+        <div class="video-wrapper">
+          <div id="player"></div>
+        </div>
+      </div>
+
+      <script src="js/playerSync.js"></script>
+      <script src="https://www.youtube.com/iframe_api"></script>
+
+      <div class="main-room-chat">chat
+        <div id="chatMessages"></div>
+        <input id="chatInput" placeholder="Hello...">
+        <button id="sendButton">Send</button>
+      </div>
+    </div>
+
+
+
+
+
+  </main>
 </body>
 
 </html>
