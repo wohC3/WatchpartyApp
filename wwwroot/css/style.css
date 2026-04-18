@@ -125,3 +125,29 @@ button {
   flex: 1;
   padding: 8px;
 }
+
+.chat-message {
+  padding: 8px;
+  margin: 4px;
+  border-radius: 4px;
+  word-wrap: break-word;
+}
+
+.mainUser-message {
+  background-color: lightgreen;
+  margin-left: auto;
+  text-align: right;
+}
+
+.otherMessage {
+  background-color: grey;
+  margin-right: auto;
+  text-align: left;
+}
+
+.systemMessage {
+  background-color: lightskyblue;
+  color: red;
+  text-align: center;
+  font-weight: bold;
+}

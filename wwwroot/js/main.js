@@ -1,11 +1,8 @@
 let joinBtn = document.querySelector("#joinButton");
 
-joinBtn.addEventListener('click', (e) => {
+joinBtn.addEventListener('click', () => {
   const username = document.querySelector("#name").value.trim();
   const roomId = document.querySelector("#roomId").value.trim();
 
-  localStorage.setItem("name", username)
-  localStorage.setItem("roomId", roomId)
-
-  window.location.href = `/room.html?room=${encodeURIComponent(roomId)}&name=${encodeURIComponent(username)}`
+  window.location.href = `/room.html?roomId=${encodeURIComponent(roomId)}&name=${encodeURIComponent(username)}`
 })
