@@ -19,4 +19,16 @@ public class ChatHub : Hub
 
         await Clients.Group(groupName).SendAsync("UserLeft", $"{user} has left the room {groupName}.");
     }
+
+    public async Task VideoPlay(double time, string groupName)
+     => await Clients.OthersInGroup(groupName).SendAsync("VideoPlay", time);
+
+
+    public async Task VideoPause(double time, string groupName)
+     => await Clients.OthersInGroup(groupName).SendAsync("VideoPause", time);
+
+
+    public async Task VideoSeek(double time, string groupName)
+     => await Clients.OthersInGroup(groupName).SendAsync("VideoSeek", time);
+
 }

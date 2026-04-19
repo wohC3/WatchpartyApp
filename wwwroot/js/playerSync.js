@@ -1,4 +1,5 @@
 let player;
+
 window.onYouTubeIframeAPIReady = function() {
   const el = document.querySelector("#player")
   player = new YT.Player(el, {
@@ -18,19 +19,50 @@ window.onYouTubeIframeAPIReady = function() {
 function onPlayerReady() {
   console.log("Player ready");
 }
+let isSyncing = false;
+
+connection.on("VideoPlay", (time) => {
+  if (!player) return;
+
+  isSyncing = true;
+  player.seekTo(time, true);
+  player.playVideo();
+
+  setTimeout(() => isSyncing = false, 300);
+})
+
+connection.on("VideoPause", (time) => {
+  if (!player) return;
+
+  isSyncing = true;
+  player.seekTo(time, true);
+  player.pauseVideo();
+
+  setTimeout(() => isSyncing = false, 300);
+})
+
+connection.on("VideoSeek", (time) => {
+  if (!player) return;
+
+  isSyncing = true;
+  player.seekTo(time, true);
+
+  setTimeout(() => isSyncing = false, 300);
+})
+
+
 
 
 function onPlayerStateChange(event) {
   const state = event.data;
+  if (isSyncing) return;
+  const time = player.getCurrentTime();
   switch (state) {
     case YT.PlayerState.PLAYING:
-      console.log("Video played");
+      connection.invoke("VideoPlay", time, roomId)
       break;
     case YT.PlayerState.PAUSED:
-      console.log("Video paused");
-      break;
-    case YT.PlayerState.ENDED:
-      console.log("Video ended");
+      connection.invoke("VideoPause", time, roomId)
       break;
   }
 }

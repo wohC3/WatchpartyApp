@@ -1,6 +1,5 @@
-
-const chatBox = document.querySelector("#chatMessages")
-const input = document.querySelector("#chatInput")
+const chatBox = document.querySelector("#chatMessages");
+const input = document.querySelector("#chatInput");
 const button = window.button;
 function renderMessage(msg) {
   const div = document.createElement("div");
