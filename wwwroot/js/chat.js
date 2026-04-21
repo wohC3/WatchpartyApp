@@ -3,41 +3,37 @@ const input = document.querySelector("#chatInput");
 const button = window.button;
 function renderMessage(msg) {
   const div = document.createElement("div");
+  const isSelf = msg.connectionId === myConnectionId;
   if (msg.user === "System") {
     div.className = "chat-message systemMessage"
   }
-  else if (msg.user === window.username) {
+  else if (isSelf) {
     div.className = "chat-message mainUser-message"
   }
   else {
     div.className = "chat-message otherMessage"
   }
-  div.textContent = `${msg.user}: ${msg.text}`;
+  div.textContent = `${msg.user}: ${msg.message}`;
   chatBox.appendChild(div);
 
   chatBox.scrollTop = chatBox.scrollHeight;
 }
 
+let myConnectionId = null;
+connection.on("Connected", function(id) {
+  myConnectionId = id;
+});
 
-connection.on("ReceiveMessage", function(user, message) {
-  renderMessage({
-    user: user,
-    text: message
-  })
+connection.on("ReceiveMessage", function(msg) {
+  renderMessage(msg)
 })
 
 
-connection.on("UserJoined", function(message) {
-  renderMessage({
-    user: "System",
-    text: message
-  })
+connection.on("UserJoined", function(msg) {
+  renderMessage(msg)
 })
-connection.on("UserLeft", function(message) {
-  renderMessage({
-    user: "System",
-    text: message
-  })
+connection.on("UserLeft", function(msg) {
+  renderMessage(msg)
 })
 
 function SendMessage() {
@@ -45,7 +41,7 @@ function SendMessage() {
   if (!message) {
     return;
   }
-  connection.invoke("SendMessage", window.username, message, window.roomId)
+  connection.invoke("SendMessage", message, window.roomId)
     .catch(err => console.error(err.toString()));
 }
 
@@ -65,7 +61,7 @@ button.addEventListener('click', SendMessage);
 
 window.addEventListener("beforeunload", () => {
 
-  connection.invoke("RemoveFromGroup", window.username, window.roomId)
+  connection.invoke("RemoveFromGroup", window.roomId)
     .catch(err => console.error(err.toString()));
 })
 
