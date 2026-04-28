@@ -1,6 +1,9 @@
 const chatBox = document.querySelector("#chatMessages");
 const input = document.querySelector("#chatInput");
-const button = window.button;
+const button = document.querySelector("sendButton");
+if (!chatBox || !input || !button) {
+  console.error("Chat UI missing from DOM");
+}
 function renderMessage(msg) {
   const div = document.createElement("div");
   const isSelf = msg.connectionId === myConnectionId;
@@ -37,7 +40,10 @@ connection.on("UserLeft", function(msg) {
 })
 
 function SendMessage() {
+  if (!connection || !window.roomId) return;
+
   const message = input.value.trim();
+
   if (!message) {
     return;
   }
@@ -45,7 +51,7 @@ function SendMessage() {
     .catch(err => console.error(err.toString()));
 }
 
-input.addEventListener("keydown", (e) => {
+input?.addEventListener("keydown", (e) => {
   if (e.key == "Enter") {
     e.preventDefault();
     SendMessage();
@@ -55,14 +61,15 @@ input.addEventListener("keydown", (e) => {
 })
 
 
-button.addEventListener('click', SendMessage);
+button?.addEventListener('click', SendMessage);
 
 
 
 window.addEventListener("beforeunload", () => {
-
-  connection.invoke("RemoveFromGroup", window.roomId)
-    .catch(err => console.error(err.toString()));
+  if (connection && window.roomId) {
+    connection.invoke("RemoveFromGroup", window.roomId)
+      .catch(err => console.error(err.toString()));
+  }
 })
 
 

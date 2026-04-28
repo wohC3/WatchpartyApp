@@ -57,6 +57,10 @@ public class ChatHub : Hub
         await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupName);
         Users.Remove(Context.ConnectionId);
     }
+    public async Task VideoChange(string videoId, string groupName)
+    {
+        await Clients.Group(groupName).SendAsync("VideoChange", videoId);
+    }
 
     public override async Task OnDisconnectedAsync(Exception? exception)
     {

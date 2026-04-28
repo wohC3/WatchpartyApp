@@ -151,3 +151,20 @@ button {
   text-align: center;
   font-weight: bold;
 }
+
+.videoChange {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+  align-items: center;
+}
+
+.videoChange #videoUrl {
+  flex: 1;
+  margin-top: 0;
+}
+
+.videoChange #loadVideo {
+  margin-top: 0;
+  white-space: nowrap;
+}

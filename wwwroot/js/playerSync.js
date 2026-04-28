@@ -1,4 +1,19 @@
 let player;
+document.querySelector("#loadVideo").addEventListener("click", () => {
+  const input = document.querySelector("#videoUrl");
+  const url = document.querySelector("#videoUrl").value;
+  const videoId = getYoutubeId(url);
+
+  if (!videoId) return alert("Invalid Youtube link");
+
+  connection.invoke("VideoChange", videoId, roomId);
+  input.value = "";
+})
+
+function getYoutubeId(url) {
+  const match = url.match(/(?:youtu\.be\/|youtube\.com.*v=)([^&?/]+)/);
+  return match ? match[1] : null;
+}
 
 window.onYouTubeIframeAPIReady = function() {
   const el = document.querySelector("#player")
@@ -50,6 +65,15 @@ connection.on("VideoSeek", (time) => {
   setTimeout(() => isSyncing = false, 300);
 })
 
+connection.on("VideoChange", (videoId) => {
+  if (!player) return;
+
+  isSyncing = true;
+
+  player.loadVideoById(videoId);
+
+  setTimeout(() => isSyncing = false, 1000);
+})
 
 
 
