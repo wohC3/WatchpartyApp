@@ -18,3 +18,4 @@ How to run:
 -in bash: 
  	-dotnet restore
 	-dotnet watch run 
+  -open localhost:####/index.html 

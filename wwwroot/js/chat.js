@@ -1,6 +1,6 @@
 const chatBox = document.querySelector("#chatMessages");
 const input = document.querySelector("#chatInput");
-const button = document.querySelector("sendButton");
+const button = document.querySelector("#sendButton");
 if (!chatBox || !input || !button) {
   console.error("Chat UI missing from DOM");
 }
@@ -61,7 +61,11 @@ input?.addEventListener("keydown", (e) => {
 })
 
 
-button?.addEventListener('click', SendMessage);
+button?.addEventListener('click', () => {
+  SendMessage();
+
+  input.value = "";
+});
 
 
 
